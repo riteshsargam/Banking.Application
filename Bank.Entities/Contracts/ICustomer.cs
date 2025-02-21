@@ -1,7 +1,11 @@
 ﻿namespace Bank.Entities.Contracts
 {
-    public class ICustomer
+    /// <summary>
+    /// Represents interface of customer entity
+    /// </summary>
+    public interface ICustomer
     {
+        #region Properties
         Guid CustomerID { get; set; } 
         long CustomerCode { get; set; }
         string CustomerName { get; set; }
@@ -10,5 +14,6 @@
         string City { get; set; }
         string Country { get; set; }
         string Mobile { get; set; }
+        #endregion
     }
 }
