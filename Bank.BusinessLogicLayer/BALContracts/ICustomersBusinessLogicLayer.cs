@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Bank.Entities;
 
-namespace Bank.DataAccessLayer.DALContracts
+
+namespace Bank.BusinessLogicLayer.BALContracts
 {
     /// <summary>
-    /// Interface that represents customers data access layer
+    /// Interface that represents customers business logic
     /// </summary>
-    public interface ICustomersDataAccessLayer
+    public interface ICustomersBusinessLogicLayer
     {
         /// <summary>
         /// Returns all existing customer
