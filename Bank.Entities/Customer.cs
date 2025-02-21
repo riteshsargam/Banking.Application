@@ -11,7 +11,7 @@ namespace Bank.Entities
     /// <summary>
     /// Represents customer of the bank
     /// </summary>
-    public class Customer : ICustomer
+    public class Customer : ICustomer, ICloneable
     {
         #region Private fields
         private Guid _customerID;
@@ -105,6 +105,22 @@ namespace Bank.Entities
                     throw new CustomerException("Mobile number should be a 10-digit mobile number.");
                 }
             }
+        }
+        #endregion
+
+        #region Methods
+        public object Clone() 
+        {
+            return new Customer()
+            {
+                CustomerID = this.CustomerID,
+                CustomerCode = this.CustomerCode,
+                CustomerName = this.CustomerName,
+                Address = this.Address,
+                City = this.City,
+                Country = this.Country,
+                Mobile = this.Mobile,
+            };
         }
         #endregion
     }
