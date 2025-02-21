@@ -12,7 +12,7 @@
         //read userName from keyboard
         Console.Write("Username:");
         userName = Console.ReadLine();
-
+        8
         //read password from keyboard
         Console.Write("Password:");
         password = Console.ReadLine();

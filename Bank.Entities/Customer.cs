@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Bank.Exceptions;
 
 namespace Bank.Entities
 {
     /// <summary>
     /// Represents customer of the bank
     /// </summary>
-    public class Customer: ICustomer
+    public class Customer : ICustomer
     {
         #region Private fields
         private Guid _customerID;
@@ -32,12 +33,40 @@ namespace Bank.Entities
         /// <summary>
         /// Auto-generated code number of the customer
         /// </summary>
-        public long CustomerCode { get => _customerCode; set => _customerCode = value; }
+        public long CustomerCode
+        {
+            get => _customerCode;
+            set
+            {
+                if (value > 0)
+                {
+                    _customerCode = value;
+                }
+                else
+                {
+                    throw new CustomerException("Customer code should be positive only.");
+                }
+            }
+        }
 
         /// <summary>
         /// Name of the customer
         /// </summary>
-        public string CustomerName { get => _customerName; set => _customerName = value; }
+        public string CustomerName
+        {
+            get => _customerName;
+            set
+            {
+                if (value.Length <= 40 && string.IsNullOrEmpty(value) == false)
+                {
+                    _customerName = value;
+                }
+                else
+                {
+                    throw new CustomerException("Customer Name should not be null and less than 40 characters long.");
+                }
+            }
+        }
 
         /// <summary>
         /// Address of the customer
@@ -62,7 +91,21 @@ namespace Bank.Entities
         /// <summary>
         /// 10-digit Mobile number of the customer
         /// </summary>
-        public string Mobile { get => _mobile; set => _mobile = value; }
+        public string Mobile
+        {
+            get => _mobile;
+            set
+            {
+                if (value.Length == 10)
+                {
+                    _mobile = value;
+                }
+                else
+                {
+                    throw new CustomerException("Mobile number should be a 10-digit mobile number.");
+                }
+            }
+        }
         #endregion
     }
 }
