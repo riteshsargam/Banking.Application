@@ -7,7 +7,7 @@ namespace Bank.DataAccessLayer
     /// <summary>
     /// Represents DAL for bank customers
     /// </summary>
-    public class CustomersDataAccessLayer: ICustomersDataAccessLayer
+    public class CustomersDataAccessLayer : ICustomersDataAccessLayer
     {
         #region Fields
         private List<Customer> _customers;
@@ -38,12 +38,23 @@ namespace Bank.DataAccessLayer
         /// <returns>Customer list</returns>
         public List<Customer> GetCustomers()
         {
-            //create a new customer list
-            List<Customer> customerList = new List<Customer>();
+            try
+            {
+                //create a new customer list
+                List<Customer> customerList = new List<Customer>();
 
-            //copy all the customer from the source collection into the newCustomer list
-            Customers.ForEach(item => customerList.Add(item.Clone() as Customer));
-            return customerList;
+                //copy all the customer from the source collection into the newCustomer list
+                Customers.ForEach(item => customerList.Add(item.Clone() as Customer));
+                return customerList;
+            }
+            catch (CustomerException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -53,15 +64,26 @@ namespace Bank.DataAccessLayer
         /// <returns>List of matching customers</returns>
         public List<Customer> GetCustomersByCondition(Predicate<Customer> predicate)
         {
-            //create a new customer list
-            List<Customer> customerList = new List<Customer>();
+            try
+            {
+                //create a new customer list
+                List<Customer> customerList = new List<Customer>();
 
-            //filter the collection
-            List<Customer> filteredCustomer = customerList.FindAll(predicate);
+                //filter the collection
+                List<Customer> filteredCustomer = customerList.FindAll(predicate);
 
-            //copy all the customer from the source collection into the newCustomer list
-            Customers.ForEach(item => filteredCustomer.Add(item.Clone() as Customer));
-            return customerList;
+                //copy all the customer from the source collection into the newCustomer list
+                Customers.ForEach(item => filteredCustomer.Add(item.Clone() as Customer));
+                return customerList;
+            }
+            catch (CustomerException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -71,13 +93,24 @@ namespace Bank.DataAccessLayer
         /// <returns>Returns Guid of newly created customer</returns>
         public Guid AddCustomer(Customer customer)
         {
-            //generate new Guid
-            customer.CustomerID = Guid.NewGuid();
+            try
+            {
+                //generate new Guid
+                customer.CustomerID = Guid.NewGuid();
 
-            //add customer
-            Customers.Add(customer);
+                //add customer
+                Customers.Add(customer);
 
-            return customer.CustomerID;
+                return customer.CustomerID;
+            }
+            catch (CustomerException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         /// <summary>
@@ -87,25 +120,36 @@ namespace Bank.DataAccessLayer
         /// <returns>Determines whether the customer is updated or not</returns>
         public bool UpdateCustomer(Customer customer)
         {
-            //find existing customer by CustomerID
-            Customer existingCustomer = Customers.Find(item => item.CustomerID == customer.CustomerID);
-
-            //update all details of customer
-            if (existingCustomer != null)
+            try
             {
-                existingCustomer.CustomerCode = customer.CustomerCode;
-                existingCustomer.CustomerName = customer.CustomerName;
-                existingCustomer.Address = customer.Address;
-                existingCustomer.Landmark = customer.Landmark;
-                existingCustomer.City = customer.City;
-                existingCustomer.Country = customer.Country;
-                existingCustomer.Mobile = customer.Mobile;
+                //find existing customer by CustomerID
+                Customer existingCustomer = Customers.Find(item => item.CustomerID == customer.CustomerID);
 
-                return true; //indicates the customer is updated
+                //update all details of customer
+                if (existingCustomer != null)
+                {
+                    existingCustomer.CustomerCode = customer.CustomerCode;
+                    existingCustomer.CustomerName = customer.CustomerName;
+                    existingCustomer.Address = customer.Address;
+                    existingCustomer.Landmark = customer.Landmark;
+                    existingCustomer.City = customer.City;
+                    existingCustomer.Country = customer.Country;
+                    existingCustomer.Mobile = customer.Mobile;
+
+                    return true; //indicates the customer is updated
+                }
+                else
+                {
+                    return false; //indicates no object is updated
+                }
             }
-            else
+            catch (CustomerException)
             {
-                return false; //indicates no object is updated
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
 
@@ -116,14 +160,25 @@ namespace Bank.DataAccessLayer
         /// <returns>Indicates whether the customer is deleted or not</returns>
         public bool DeleteCustomer(Guid customerID)
         {
-            //delete customer by CustomerID
-            if (Customers.RemoveAll(item => item.CustomerID == customerID) > 0)
+            try
             {
-                return true; //indicates one or more customers are deleted
+                //delete customer by CustomerID
+                if (Customers.RemoveAll(item => item.CustomerID == customerID) > 0)
+                {
+                    return true; //indicates one or more customers are deleted
+                }
+                else
+                {
+                    return false; //indicates no customer is deleted
+                }
             }
-            else
+            catch (CustomerException)
             {
-                return false; //indicates no customer is deleted
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
         #endregion
